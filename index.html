@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="description" content="Ali's WerAR Studio — upload and view 3D GLB models in AR." />
+  <title>Ali's WerAR Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
+</head>
+<body>
+  <div id="file-protocol-banner" class="banner" hidden>
+    Run <strong>start-server.bat</strong> — do not open index.html directly.
+  </div>
+
+  <header class="header">
+    <h1 class="title">Ali's WerAR Studio</h1>
+    <p class="subtitle">Upload a <strong>.glb</strong> on PC · Scan QR with iPhone · View in AR</p>
+  </header>
+
+  <main class="main">
+    <section class="upload-bar">
+      <input type="file" id="file-input" accept=".glb,model/gltf-binary" hidden />
+      <button type="button" id="btn-upload" class="btn btn-upload">
+        <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M9 16h6v-6h4l-7-7-7 7h4v6zm-4 2h14v2H5v-2z"/></svg>
+        Upload .GLB model
+      </button>
+      <span id="file-name" class="file-name">No file selected</span>
+    </section>
+
+    <section class="viewer-card" id="viewer-card">
+      <model-viewer
+        id="product-model"
+        alt="Your 3D model"
+        shadow-intensity="1"
+        exposure="1"
+        environment-image="neutral"
+        camera-controls
+        touch-action="pan-y"
+        auto-rotate
+        rotation-per-second="20deg"
+        interaction-prompt="auto"
+        ar
+        ar-modes="webxr scene-viewer quick-look"
+        ar-scale="fixed"
+        ar-placement="floor"
+      >
+        <button slot="ar-button" class="btn-ar" id="btn-ar" hidden>View in AR</button>
+        <div class="placeholder" slot="poster" id="viewer-placeholder">
+          <p>Upload a <code>.glb</code> file to preview it here</p>
+        </div>
+      </model-viewer>
+    </section>
+
+    <section id="qr-section" class="qr-section">
+      <h2 class="qr-title">iPhone AR — Scan this QR</h2>
+      <p class="qr-steps">Same Wi‑Fi → iPhone Camera → scan → tap <strong>View in AR</strong></p>
+      <div class="qr-box" id="qr-box">
+        <canvas id="qr-canvas" width="220" height="220" aria-label="QR code"></canvas>
+        <img id="qr-img" class="qr-img" width="220" height="220" alt="QR code" hidden />
+        <p id="qr-placeholder" class="qr-placeholder">Upload a .glb to generate QR</p>
+      </div>
+      <p id="qr-url" class="qr-url"></p>
+      <div class="qr-actions">
+        <button type="button" id="btn-qr" class="btn btn-primary" disabled>Download QR image</button>
+        <button type="button" id="btn-refresh-qr" class="btn btn-ghost">Refresh QR</button>
+      </div>
+    </section>
+
+    <section class="controls">
+      <button type="button" id="btn-download" class="btn btn-ghost" disabled>Download GLB</button>
+      <p id="status" class="status" aria-live="polite"></p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>iPhone needs Safari · PC and phone on the same Wi‑Fi · Use <code>start-server.bat</code></p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
